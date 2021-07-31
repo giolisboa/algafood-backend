@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Cozinha {
+public class Estado {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,7 +47,7 @@ public class Cozinha {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Cozinha other = (Cozinha) obj;
+        Estado other = (Estado) obj;
         return Objects.equals(id, other.id);
     }
 

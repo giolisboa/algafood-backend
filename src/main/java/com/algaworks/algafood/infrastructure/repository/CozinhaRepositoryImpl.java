@@ -1,4 +1,4 @@
-package com.algaworks.algafood.jpa;
+package com.algaworks.algafood.infrastructure.repository;
 
 import java.util.List;
 
@@ -9,29 +9,35 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.algaworks.algafood.domain.model.Cozinha;
+import com.algaworks.algafood.domain.repository.CozinhaRepository;
 
 @Component
-public class CadastroCozinha {
+public class CozinhaRepositoryImpl implements CozinhaRepository {
 
     @PersistenceContext
     private EntityManager manager;
 
-    public List<Cozinha> listar() {
+    @Override
+    public List<Cozinha> listarTodas() {
         return manager.createQuery("from Cozinha", Cozinha.class).getResultList();
     }
 
-    @Transactional
-    public Cozinha salvar(Cozinha cozinha) {
-        return manager.merge(cozinha);
-    }
-
-    public Cozinha buscar(Long id) {
+    @Override
+    public Cozinha listarPorId(Long id) {
         return manager.find(Cozinha.class, id);
     }
 
     @Transactional
+    @Override
+    public Cozinha adicionar(Cozinha cozinha) {
+        return manager.merge(cozinha);
+    }
+
+    @Transactional
+    @Override
     public void remover(Cozinha cozinha) {
-        cozinha = buscar(cozinha.getId());
+        cozinha = listarPorId(cozinha.getId());
         manager.remove(cozinha);
     }
+
 }

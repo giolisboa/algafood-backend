@@ -8,6 +8,9 @@ import org.springframework.context.ApplicationContext;
 
 import com.algaworks.algafood.AlgafoodApiApplication;
 import com.algaworks.algafood.domain.model.Cozinha;
+import com.algaworks.algafood.domain.model.Restaurante;
+import com.algaworks.algafood.domain.repository.CozinhaRepository;
+import com.algaworks.algafood.domain.repository.RestauranteRepository;
 
 public class Main {
 
@@ -16,7 +19,7 @@ public class Main {
         ApplicationContext applicationContext = new SpringApplicationBuilder(AlgafoodApiApplication.class)
                 .web(WebApplicationType.NONE).run(args);
 
-        CadastroCozinha cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
+        CozinhaRepository cozinhaRepository = applicationContext.getBean(CozinhaRepository.class);
 
         Cozinha cozinha1 = new Cozinha();
         cozinha1.setNome("Brasileira");
@@ -24,19 +27,27 @@ public class Main {
         Cozinha cozinha2 = new Cozinha();
         cozinha2.setNome("Japonesa");
 
-        cadastroCozinha.salvar(cozinha1);
-        cadastroCozinha.salvar(cozinha2);
+        cozinhaRepository.adicionar(cozinha1);
+        cozinhaRepository.adicionar(cozinha2);
 
-        List<Cozinha> cozinhas = cadastroCozinha.listar();
+        List<Cozinha> cozinhas = cozinhaRepository.listarTodas();
 
         cozinhas.forEach(cozinha -> System.out.println(cozinha.getId() + " - " + cozinha.getNome()));
 
-        System.out.println(cadastroCozinha.buscar(3L).getNome());
+        System.out.println(cozinhaRepository.listarPorId(3L).getNome());
 
         Cozinha cozinhaRemover = new Cozinha();
         cozinhaRemover.setId(3L);
 
-        cadastroCozinha.remover(cozinhaRemover);
+        cozinhaRepository.remover(cozinhaRemover);
+
+        // RESTAURANTES
+        RestauranteRepository restauranteRepository = applicationContext.getBean(RestauranteRepository.class);
+
+        List<Restaurante> restaurantes = restauranteRepository.listarTodos();
+
+        restaurantes.forEach(r -> System.out.println(r.getNome() + " " + r.getTaxaFrete() + " " + r.getCozinha().getNome()));
+
     }
 
 }

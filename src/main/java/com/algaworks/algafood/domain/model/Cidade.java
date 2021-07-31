@@ -7,9 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class Cozinha {
+public class Cidade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +19,10 @@ public class Cozinha {
 
     @Column(nullable = false)
     private String nome;
+
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Estado estado;
 
     public Long getId() {
         return id;
@@ -34,6 +40,14 @@ public class Cozinha {
         this.nome = nome;
     }
 
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
@@ -47,7 +61,7 @@ public class Cozinha {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Cozinha other = (Cozinha) obj;
+        Cidade other = (Cidade) obj;
         return Objects.equals(id, other.id);
     }
 

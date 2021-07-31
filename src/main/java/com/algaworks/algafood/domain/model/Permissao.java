@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Cozinha {
+public class Permissao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +17,9 @@ public class Cozinha {
 
     @Column(nullable = false)
     private String nome;
+
+    @Column(nullable = false)
+    private String descricao;
 
     public Long getId() {
         return id;
@@ -34,6 +37,14 @@ public class Cozinha {
         this.nome = nome;
     }
 
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
@@ -47,7 +58,7 @@ public class Cozinha {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Cozinha other = (Cozinha) obj;
+        Permissao other = (Permissao) obj;
         return Objects.equals(id, other.id);
     }
 
