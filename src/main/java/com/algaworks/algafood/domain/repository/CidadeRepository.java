@@ -6,7 +6,7 @@ import com.algaworks.algafood.domain.model.Cidade;
 
 public interface CidadeRepository {
 
-    List<Cidade> listarTodas();
+    List<Cidade> listar();
 
     Cidade listarPorId(Long id);
 

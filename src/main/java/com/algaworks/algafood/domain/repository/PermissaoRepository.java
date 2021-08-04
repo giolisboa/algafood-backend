@@ -6,7 +6,7 @@ import com.algaworks.algafood.domain.model.Permissao;
 
 public interface PermissaoRepository {
 
-    List<Permissao> listarTodas();
+    List<Permissao> listar();
 
     Permissao listarPorId(Long id);
 

@@ -6,7 +6,7 @@ import com.algaworks.algafood.domain.model.FormaPagamento;
 
 public interface FormaPagamentoRepository {
 
-    List<FormaPagamento> listarTodas();
+    List<FormaPagamento> listar();
 
     FormaPagamento listarPorId(Long id);
 

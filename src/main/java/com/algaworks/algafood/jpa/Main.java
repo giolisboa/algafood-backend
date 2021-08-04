@@ -30,7 +30,7 @@ public class Main {
         cozinhaRepository.adicionar(cozinha1);
         cozinhaRepository.adicionar(cozinha2);
 
-        List<Cozinha> cozinhas = cozinhaRepository.listarTodas();
+        List<Cozinha> cozinhas = cozinhaRepository.listar();
 
         cozinhas.forEach(cozinha -> System.out.println(cozinha.getId() + " - " + cozinha.getNome()));
 
@@ -44,7 +44,7 @@ public class Main {
         // RESTAURANTES
         RestauranteRepository restauranteRepository = applicationContext.getBean(RestauranteRepository.class);
 
-        List<Restaurante> restaurantes = restauranteRepository.listarTodos();
+        List<Restaurante> restaurantes = restauranteRepository.listar();
 
         restaurantes.forEach(r -> System.out.println(r.getNome() + " " + r.getTaxaFrete() + " " + r.getCozinha().getNome()));
 

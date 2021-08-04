@@ -6,7 +6,7 @@ import com.algaworks.algafood.domain.model.Restaurante;
 
 public interface RestauranteRepository {
 
-    List<Restaurante> listarTodos();
+    List<Restaurante> listar();
 
     Restaurante listarPorId(Long id);
 
