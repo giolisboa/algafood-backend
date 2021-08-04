@@ -27,8 +27,8 @@ public class Main {
         Cozinha cozinha2 = new Cozinha();
         cozinha2.setNome("Japonesa");
 
-        cozinhaRepository.adicionar(cozinha1);
-        cozinhaRepository.adicionar(cozinha2);
+        cozinhaRepository.salvar(cozinha1);
+        cozinhaRepository.salvar(cozinha2);
 
         List<Cozinha> cozinhas = cozinhaRepository.listar();
 
@@ -39,7 +39,7 @@ public class Main {
         Cozinha cozinhaRemover = new Cozinha();
         cozinhaRemover.setId(3L);
 
-        cozinhaRepository.remover(cozinhaRemover);
+        cozinhaRepository.remover(cozinhaRemover.getId());
 
         // RESTAURANTES
         RestauranteRepository restauranteRepository = applicationContext.getBean(RestauranteRepository.class);

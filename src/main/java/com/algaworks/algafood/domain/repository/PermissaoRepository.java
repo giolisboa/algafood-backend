@@ -10,7 +10,7 @@ public interface PermissaoRepository {
 
     Permissao listarPorId(Long id);
 
-    Permissao adicionar(Permissao permissao);
+    Permissao salvar(Permissao permissao);
 
     void remover(Permissao permissao);
 

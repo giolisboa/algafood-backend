@@ -29,7 +29,7 @@ public class FormaPagamentoRepositoryImpl implements FormaPagamentoRepository {
 
     @Transactional
     @Override
-    public FormaPagamento adicionar(FormaPagamento formaPagamento) {
+    public FormaPagamento salvar(FormaPagamento formaPagamento) {
         return manager.merge(formaPagamento);
     }
 

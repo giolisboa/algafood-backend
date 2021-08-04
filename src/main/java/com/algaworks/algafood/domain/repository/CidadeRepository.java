@@ -10,7 +10,7 @@ public interface CidadeRepository {
 
     Cidade listarPorId(Long id);
 
-    Cidade adicionar(Cidade cidade);
+    Cidade salvar(Cidade cidade);
 
     void remover(Cidade cidade);
 }
