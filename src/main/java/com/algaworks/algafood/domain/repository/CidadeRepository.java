@@ -8,9 +8,9 @@ public interface CidadeRepository {
 
     List<Cidade> listar();
 
-    Cidade listarPorId(Long id);
+    Cidade listarPorId(Long idCidade);
 
     Cidade salvar(Cidade cidade);
 
-    void remover(Cidade cidade);
+    void remover(Long idCidade);
 }

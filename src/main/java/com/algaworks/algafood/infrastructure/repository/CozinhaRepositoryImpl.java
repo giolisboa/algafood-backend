@@ -24,8 +24,8 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
     }
 
     @Override
-    public Cozinha listarPorId(Long id) {
-        return manager.find(Cozinha.class, id);
+    public Cozinha listarPorId(Long idCozinha) {
+        return manager.find(Cozinha.class, idCozinha);
     }
 
     @Transactional
@@ -36,8 +36,8 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
 
     @Transactional
     @Override
-    public void remover(Long id) {
-        Cozinha cozinha = listarPorId(id);
+    public void remover(Long idCozinha) {
+        Cozinha cozinha = listarPorId(idCozinha);
 
         if (cozinha == null) {
             throw new EmptyResultDataAccessException(1);
