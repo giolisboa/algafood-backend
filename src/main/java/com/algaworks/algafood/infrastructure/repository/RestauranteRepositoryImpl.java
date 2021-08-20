@@ -1,12 +1,16 @@
 package com.algaworks.algafood.infrastructure.repository;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -23,30 +27,29 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
     @Override
     public List<Restaurante> find(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
 
-        var parametros = new HashMap<String, Object>();
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
 
-        var jpql = new StringBuilder();
+        CriteriaQuery<Restaurante> criteria = builder.createQuery(Restaurante.class);
 
-        jpql.append("from Restaurante where 0 = 0");
+        Root<Restaurante> root = criteria.from(Restaurante.class);
 
-        if (StringUtils.hasLength(nome)) {
-            jpql.append(" and nome like :nome");
-            parametros.put("nome", "%" + nome + "%");
+        var predicates = new ArrayList<Predicate>();
+
+        if (StringUtils.hasText(nome)) {
+            predicates.add(builder.like(root.get("nome"), "%" + nome + "%"));
         }
 
         if (taxaFreteInicial != null) {
-            jpql.append(" and taxaFrete >= :taxaInicial");
-            parametros.put("taxaInicial", taxaFreteInicial);
+            predicates.add(builder.greaterThanOrEqualTo(root.get("taxaFrete"), taxaFreteInicial));
         }
 
         if (taxaFreteFinal != null) {
-            jpql.append(" and taxaFrete <= :taxaFinal");
-            parametros.put("taxaFinal", taxaFreteFinal);
+            predicates.add(builder.lessThanOrEqualTo(root.get("taxaFrete"), taxaFreteFinal));
         }
 
-        TypedQuery<Restaurante> query = manager.createQuery(jpql.toString(), Restaurante.class);
+        criteria.where(predicates.toArray(new Predicate[0]));
 
-        parametros.forEach((key, value) -> query.setParameter(key, value));
+        TypedQuery<Restaurante> query = manager.createQuery(criteria);
 
         return query.getResultList();
     }
