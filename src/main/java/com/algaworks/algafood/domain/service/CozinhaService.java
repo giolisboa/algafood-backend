@@ -24,7 +24,7 @@ public class CozinhaService {
         return cozinhaRepository.save(cozinha);
     }
 
-    public void remover(Long idCozinha) {
+    public void excluir(Long idCozinha) {
         try {
             cozinhaRepository.deleteById(idCozinha);
         } catch (EmptyResultDataAccessException e) {
