@@ -4,16 +4,16 @@ import java.time.LocalDateTime;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.HttpMediaTypeException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 
 @ControllerAdvice
-public class ApiExceptionHandler {
+public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntidadeNaoEncontradaException.class)
     public ResponseEntity<?> tratarEntidadeNaoEncontradaException(EntidadeNaoEncontradaException e) {
@@ -34,7 +34,7 @@ public class ApiExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problema);
     }
-    
+
     @ExceptionHandler(EntidadeEmUsoException.class)
     public ResponseEntity<?> tratarEntidadeEmUsoException(EntidadeEmUsoException e) {
         Problema problema = new Problema();
@@ -43,16 +43,6 @@ public class ApiExceptionHandler {
         problema.setMensagem(e.getMessage());
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(problema);
-    }
-
-    @ExceptionHandler(HttpMediaTypeException.class)
-    public ResponseEntity<?> tratarNegocioException() {
-        Problema problema = new Problema();
-
-        problema.setDataHora(LocalDateTime.now());
-        problema.setMensagem("O tipo de mídia não é aceito.");
-
-        return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(problema);
     }
 
 }
