@@ -10,6 +10,7 @@ public class Problem {
     private String type;
     private String title;
     private String detail;
+    private String userMessage;
 
     public Problem() {
 
@@ -20,6 +21,14 @@ public class Problem {
         this.type = type;
         this.title = title;
         this.detail = detail;
+    }
+
+    public Problem(Integer status, String type, String title, String detail, String userMessage) {
+        this.status = status;
+        this.type = type;
+        this.title = title;
+        this.detail = detail;
+        this.userMessage = userMessage;
     }
 
     public Integer getStatus() {
@@ -52,6 +61,14 @@ public class Problem {
 
     public void setDetail(String detail) {
         this.detail = detail;
+    }
+
+    public String getUserMessage() {
+        return userMessage;
+    }
+
+    public void setUserMessage(String userMessage) {
+        this.userMessage = userMessage;
     }
 
 }
