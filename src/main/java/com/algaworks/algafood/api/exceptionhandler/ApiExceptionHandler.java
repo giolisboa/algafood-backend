@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.exceptionhandler;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +28,7 @@ import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final String MSG_ERRO_GENERICO_USUARIO_FINAL = "Ocorreu um erro interno inesperado no sistema. "
-            + "Tente novamente e se o problema persistir, entre em contato " + "com o administrador do sistema.";
+            + "Tente novamente e se o problema persistir, entre em contato com o administrador do sistema.";
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
@@ -43,7 +44,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         ProblemType problemType = ProblemType.MENSAGEM_INCOMPREENSIVEL;
         String detail = "O corpo da requisição está inválido. Verifique erro de sintaxe.";
-        Problem problem = createProblem(status, problemType, detail);
+        Problem problem = createProblem(status, problemType, detail, MSG_ERRO_GENERICO_USUARIO_FINAL);
 
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
@@ -68,7 +69,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 "O parâmetro de URL '%s' recebeu o valor '%s', que é de um tipo inválido. Corrija e informe um valor compatível com o tipo %s.",
                 ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
 
-        Problem problem = createProblem(status, problemType, detail);
+        Problem problem = createProblem(status, problemType, detail, MSG_ERRO_GENERICO_USUARIO_FINAL);
 
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
@@ -81,7 +82,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         String detail = String.format("O recurso %s, que você tentou acessar, é inexistente.", ex.getRequestURL());
 
-        Problem problem = createProblem(status, problemType, detail);
+        Problem problem = createProblem(status, problemType, detail, MSG_ERRO_GENERICO_USUARIO_FINAL);
 
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
@@ -124,7 +125,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         HttpStatus status = HttpStatus.NOT_FOUND;
         ProblemType problemType = ProblemType.RECURSO_NAO_ENCONTRADO;
         String detail = ex.getMessage();
-        Problem problem = createProblem(status, problemType, detail);
+        Problem problem = createProblem(status, problemType, detail, detail);
 
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
@@ -146,7 +147,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         ProblemType problemType = ProblemType.ERRO_NEGOCIO;
         String detail = ex.getMessage();
-        Problem problem = createProblem(status, problemType, detail);
+        Problem problem = createProblem(status, problemType, detail, detail);
 
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
@@ -160,7 +161,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         ex.printStackTrace();
 
-        Problem problem = createProblem(status, problemType, detail);
+        Problem problem = createProblem(status, problemType, detail, detail);
 
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
@@ -174,22 +175,23 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         if (body == null) {
             problem.setTitle(status.getReasonPhrase());
             problem.setStatus(status.value());
+            problem.setUserMessage(MSG_ERRO_GENERICO_USUARIO_FINAL);
+            problem.setTimestamp(LocalDateTime.now());
             body = problem;
         } else if (body instanceof String) {
             problem.setTitle((String) body);
             problem.setStatus(status.value());
+            problem.setUserMessage(MSG_ERRO_GENERICO_USUARIO_FINAL);
+            problem.setTimestamp(LocalDateTime.now());
             body = problem;
         }
 
         return super.handleExceptionInternal(ex, body, headers, status, request);
     }
 
-    private Problem createProblem(HttpStatus status, ProblemType problemType, String detail) {
-        return new Problem(status.value(), problemType.getUri(), problemType.getTitle(), detail);
-    }
-
     private Problem createProblem(HttpStatus status, ProblemType problemType, String detail, String userMessage) {
-        return new Problem(status.value(), problemType.getUri(), problemType.getTitle(), detail, userMessage);
+        return new Problem(status.value(), problemType.getUri(), problemType.getTitle(), detail, userMessage,
+                LocalDateTime.now());
     }
 
 }
