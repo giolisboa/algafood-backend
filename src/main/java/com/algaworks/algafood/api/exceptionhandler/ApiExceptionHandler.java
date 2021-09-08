@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -125,8 +126,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             HttpHeaders headers, HttpStatus status, WebRequest request) {
 
         ProblemType problemType = ProblemType.DADOS_INVALIDOS;
+
         String detail = "Um ou mais campos estão inválidos. faça o preenchimento correto e tente novamente.";
-        Problem problem = createProblem(status, problemType, detail, detail);
+
+        BindingResult bindingResult = ex.getBindingResult();
+
+        List<Problem.Field> problemFields = bindingResult.getFieldErrors().stream()
+                .map(f -> new Problem.Field(f.getField(), f.getDefaultMessage())).collect(Collectors.toList());
+
+        Problem problem = createProblem(status, problemType, detail, detail, problemFields);
 
         return handleExceptionInternal(ex, problem, headers, status, request);
     }
@@ -204,6 +212,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     private Problem createProblem(HttpStatus status, ProblemType problemType, String detail, String userMessage) {
         return new Problem(status.value(), problemType.getUri(), problemType.getTitle(), detail, userMessage,
                 LocalDateTime.now());
+    }
+
+    private Problem createProblem(HttpStatus status, ProblemType problemType, String detail, String userMessage,
+            List<Problem.Field> problemFields) {
+        return new Problem(status.value(), problemType.getUri(), problemType.getTitle(), detail, userMessage,
+                LocalDateTime.now(), problemFields);
     }
 
 }
