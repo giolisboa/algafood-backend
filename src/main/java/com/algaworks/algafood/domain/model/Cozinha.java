@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Cozinha {
 
-    @NotNull(groups = Groups.CadastroRestaurante.class)
+    @NotNull(groups = Groups.CozinhaId.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
