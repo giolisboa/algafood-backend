@@ -64,7 +64,7 @@ public class RestauranteController {
     }
 
     @PutMapping("/{idRestaurante}")
-    public Restaurante atualizar(@PathVariable Long idRestaurante, @RequestBody Restaurante restaurante) {
+    public Restaurante atualizar(@PathVariable Long idRestaurante, @RequestBody @Valid Restaurante restaurante) {
         try {
             Restaurante restauranteAtual = restauranteService.buscar(idRestaurante);
 
