@@ -11,14 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
-import com.algaworks.algafood.core.validation.Groups;
 
 @Entity
 public class Cozinha {
 
-    @NotNull(groups = Groups.CozinhaId.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
