@@ -1,6 +1,6 @@
 package com.algaworks.algafood.api.exceptionhandler;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -205,13 +205,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             problem.setTitle(status.getReasonPhrase());
             problem.setStatus(status.value());
             problem.setUserMessage(MSG_ERRO_GENERICO_USUARIO_FINAL);
-            problem.setTimestamp(LocalDateTime.now());
+            problem.setTimestamp(OffsetDateTime.now());
             body = problem;
         } else if (body instanceof String) {
             problem.setTitle((String) body);
             problem.setStatus(status.value());
             problem.setUserMessage(MSG_ERRO_GENERICO_USUARIO_FINAL);
-            problem.setTimestamp(LocalDateTime.now());
+            problem.setTimestamp(OffsetDateTime.now());
             body = problem;
         }
 
@@ -220,13 +220,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     private Problem createProblem(HttpStatus status, ProblemType problemType, String detail, String userMessage) {
         return new Problem(status.value(), problemType.getUri(), problemType.getTitle(), detail, userMessage,
-                LocalDateTime.now());
+                OffsetDateTime.now());
     }
 
     private Problem createProblem(HttpStatus status, ProblemType problemType, String detail, String userMessage,
             List<Problem.Field> problemFields) {
         return new Problem(status.value(), problemType.getUri(), problemType.getTitle(), detail, userMessage,
-                LocalDateTime.now(), problemFields);
+                OffsetDateTime.now(), problemFields);
     }
 
 }
