@@ -51,4 +51,16 @@ public class RestauranteService {
                 .orElseThrow(() -> new RestauranteNaoEncontradoException(idRestaurante));
     }
 
+    @Transactional
+    public void ativar(Long idRestaurante) {
+        Restaurante restaurante = buscar(idRestaurante);
+        restaurante.ativar();
+    }
+
+    @Transactional
+    public void inativar(Long idRestaurante) {
+        Restaurante restaurante = buscar(idRestaurante);
+        restaurante.inativar();
+    }
+
 }

@@ -41,6 +41,8 @@ public class Restaurante {
     @Embedded
     private Endereco endereco;
 
+    private Boolean ativo = Boolean.TRUE;
+
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
     private OffsetDateTime dataCadastro;
@@ -96,6 +98,14 @@ public class Restaurante {
         this.endereco = endereco;
     }
 
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
+
     public OffsetDateTime getDataCadastro() {
         return dataCadastro;
     }
@@ -143,6 +153,14 @@ public class Restaurante {
             return false;
         Restaurante other = (Restaurante) obj;
         return Objects.equals(id, other.id);
+    }
+
+    public void ativar() {
+        setAtivo(true);
+    }
+
+    public void inativar() {
+        setAtivo(false);
     }
 
 }
