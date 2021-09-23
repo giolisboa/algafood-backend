@@ -1,8 +1,8 @@
-package com.algaworks.algafood.api.model;
+package com.algaworks.algafood.api.model.input;
 
 import javax.validation.constraints.NotNull;
 
-public class CozinhaIdInput {
+public class CidadeIdInput {
 
     @NotNull
     private Long id;

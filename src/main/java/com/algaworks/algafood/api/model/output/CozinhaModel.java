@@ -1,10 +1,9 @@
-package com.algaworks.algafood.api.model;
+package com.algaworks.algafood.api.model.output;
 
-public class CidadeResumoModel {
+public class CozinhaModel {
 
     private Long id;
     private String nome;
-    private String estado;
 
     public Long getId() {
         return id;
@@ -20,14 +19,6 @@ public class CidadeResumoModel {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
     }
 
 }
