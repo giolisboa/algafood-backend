@@ -49,7 +49,7 @@ public class GrupoController {
 
     @GetMapping("/{idGrupo}")
     public GrupoModel buscar(@PathVariable Long idGrupo) {
-        Grupo grupo = grupoService.buscarOuFalhar(idGrupo);
+        Grupo grupo = grupoService.buscar(idGrupo);
 
         return grupoModelAssembler.toModel(grupo);
     }
@@ -66,7 +66,7 @@ public class GrupoController {
 
     @PutMapping("/{idGrupo}")
     public GrupoModel atualizar(@PathVariable Long idGrupo, @RequestBody @Valid GrupoInput grupoInput) {
-        Grupo grupoAtual = grupoService.buscarOuFalhar(idGrupo);
+        Grupo grupoAtual = grupoService.buscar(idGrupo);
 
         grupoInputDisassembler.copyToDomainObject(grupoInput, grupoAtual);
 

@@ -38,7 +38,7 @@ public class GrupoService {
         }
     }
 
-    public Grupo buscarOuFalhar(Long idGrupo) {
+    public Grupo buscar(Long idGrupo) {
         return grupoRepository.findById(idGrupo).orElseThrow(() -> new GrupoNaoEncontradoException(idGrupo));
     }
 
