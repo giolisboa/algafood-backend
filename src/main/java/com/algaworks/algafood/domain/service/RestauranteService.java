@@ -10,6 +10,7 @@ import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.RestauranteNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Cozinha;
+import com.algaworks.algafood.domain.model.FormaPagamento;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 
@@ -26,6 +27,9 @@ public class RestauranteService {
 
     @Autowired
     private CozinhaService cozinhaService;
+
+    @Autowired
+    private FormaPagamentoService formaPagamentoService;
 
     @Transactional
     public Restaurante salvar(Restaurante restaurante) {
@@ -68,6 +72,22 @@ public class RestauranteService {
     public void inativar(Long idRestaurante) {
         Restaurante restaurante = buscar(idRestaurante);
         restaurante.inativar();
+    }
+
+    @Transactional
+    public void desassociarFormaPagamento(Long idRestaurante, Long idFormaPagamento) {
+        Restaurante restaurante = buscar(idRestaurante);
+        FormaPagamento formaPagamento = formaPagamentoService.buscar(idFormaPagamento);
+
+        restaurante.removerFormaPagamento(formaPagamento);
+    }
+
+    @Transactional
+    public void associarFormaPagamento(Long idRestaurante, Long idFormaPagamento) {
+        Restaurante restaurante = buscar(idRestaurante);
+        FormaPagamento formaPagamento = formaPagamentoService.buscar(idFormaPagamento);
+
+        restaurante.adicionarFormaPagamento(formaPagamento);
     }
 
 }
