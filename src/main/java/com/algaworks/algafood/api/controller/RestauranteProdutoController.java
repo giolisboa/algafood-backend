@@ -27,7 +27,7 @@ import com.algaworks.algafood.domain.service.RestauranteService;
 
 @RestController
 @RequestMapping(value = "/restaurantes/{idRestaurante}/produtos")
-public class ProdutoController {
+public class RestauranteProdutoController {
 
     @Autowired
     private ProdutoService produtoService;

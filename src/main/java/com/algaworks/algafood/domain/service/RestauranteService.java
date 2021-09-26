@@ -75,6 +75,18 @@ public class RestauranteService {
     }
 
     @Transactional
+    public void fechar(Long idRestaurante) {
+        Restaurante restaurante = buscar(idRestaurante);
+        restaurante.fechar();
+    }
+
+    @Transactional
+    public void abrir(Long idRestaurante) {
+        Restaurante restaurante = buscar(idRestaurante);
+        restaurante.abrir();
+    }
+
+    @Transactional
     public void desassociarFormaPagamento(Long idRestaurante, Long idFormaPagamento) {
         Restaurante restaurante = buscar(idRestaurante);
         FormaPagamento formaPagamento = formaPagamentoService.buscar(idFormaPagamento);
