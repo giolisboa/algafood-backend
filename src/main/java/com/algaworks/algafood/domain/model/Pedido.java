@@ -8,6 +8,8 @@ import java.util.Objects;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -39,7 +41,8 @@ public class Pedido {
 
     private OffsetDateTime dataEntrega;
 
-    private StatusPedido status;
+    @Enumerated(EnumType.STRING)
+    private StatusPedido status = StatusPedido.CRIADO;
 
     @Embedded
     private Endereco enderecoEntrega;
@@ -186,6 +189,19 @@ public class Pedido {
             return false;
         Pedido other = (Pedido) obj;
         return Objects.equals(id, other.id);
+    }
+
+    public void calcularValorTotal() {
+        this.subtotal = getItens().stream().map(item -> item.getPrecoTotal()).reduce(BigDecimal.ZERO, BigDecimal::add);
+        this.valorTotal = this.subtotal.add(this.taxaFrete);
+    }
+
+    public void definirFrete() {
+        setTaxaFrete(getRestaurante().getTaxaFrete());
+    }
+
+    public void atribuirPedidoAosItens() {
+        getItens().forEach(item -> item.setPedido(this));
     }
 
 }
