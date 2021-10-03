@@ -4,19 +4,19 @@ import java.math.BigDecimal;
 
 public class ItemPedidoModel {
 
-    private Long produtoId;
+    private Long idProduto;
     private String produtoNome;
     private Integer quantidade;
     private BigDecimal precoUnitario;
     private BigDecimal precoTotal;
     private String observacao;
 
-    public Long getProdutoId() {
-        return produtoId;
+    public Long getIdProduto() {
+        return idProduto;
     }
 
-    public void setProdutoId(Long produtoId) {
-        this.produtoId = produtoId;
+    public void setIdProduto(Long idProduto) {
+        this.idProduto = idProduto;
     }
 
     public String getProdutoNome() {
