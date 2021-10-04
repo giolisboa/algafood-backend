@@ -1,5 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
+import java.time.OffsetDateTime;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import com.algaworks.algafood.domain.model.FormaPagamento;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.Restaurante;
+import com.algaworks.algafood.domain.model.StatusPedido;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.repository.PedidoRepository;
 
@@ -36,7 +39,7 @@ public class PedidoService {
     @Autowired
     private ProdutoService produtoService;
 
-    public Pedido buscarOuFalhar(Long idPedido) {
+    public Pedido buscar(Long idPedido) {
         return pedidoRepository.findById(idPedido).orElseThrow(() -> new PedidoNaoEncontradoException(idPedido));
     }
 
@@ -84,6 +87,19 @@ public class PedidoService {
             item.setProduto(produto);
             item.setPrecoUnitario(produto.getPreco());
         });
+    }
+
+    @Transactional
+    public void confirmarPedido(Long idPedido) {
+        Pedido pedido = buscar(idPedido);
+
+        if (!pedido.getStatus().equals(StatusPedido.CRIADO)) {
+            throw new NegocioException(String.format("O status do pedido %s não pode ser alterado de %s para %s",
+                    pedido.getId(), pedido.getStatus().getDescricao(), StatusPedido.CONFIRMADO.getDescricao()));
+        }
+
+        pedido.setStatus(StatusPedido.CONFIRMADO);
+        pedido.setDataConfirmacao(OffsetDateTime.now());
     }
 
 }
