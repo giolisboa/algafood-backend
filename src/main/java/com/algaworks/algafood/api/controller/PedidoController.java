@@ -84,4 +84,16 @@ public class PedidoController {
         pedidoService.confirmarPedido(idPedido);
     }
 
+    @PutMapping("/{idPedido}/cancelamento")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void cancelar(@PathVariable Long idPedido) {
+        pedidoService.cancelarPedido(idPedido);
+    }
+
+    @PutMapping("/{idPedido}/entrega")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void entregar(@PathVariable Long idPedido) {
+        pedidoService.entregarPedido(idPedido);
+    }
+
 }
