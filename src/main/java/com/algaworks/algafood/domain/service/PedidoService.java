@@ -1,7 +1,5 @@
 package com.algaworks.algafood.domain.service;
 
-import java.time.OffsetDateTime;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,6 @@ import com.algaworks.algafood.domain.model.FormaPagamento;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.Restaurante;
-import com.algaworks.algafood.domain.model.StatusPedido;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.repository.PedidoRepository;
 
@@ -39,8 +36,9 @@ public class PedidoService {
     @Autowired
     private ProdutoService produtoService;
 
-    public Pedido buscar(Long idPedido) {
-        return pedidoRepository.findById(idPedido).orElseThrow(() -> new PedidoNaoEncontradoException(idPedido));
+    public Pedido buscar(String codigoPedido) {
+        return pedidoRepository.findByCodigo(codigoPedido)
+                .orElseThrow(() -> new PedidoNaoEncontradoException(codigoPedido));
     }
 
     @Transactional
@@ -90,20 +88,20 @@ public class PedidoService {
     }
 
     @Transactional
-    public void confirmarPedido(Long idPedido) {
-        Pedido pedido = buscar(idPedido);
+    public void confirmarPedido(String codigoPedido) {
+        Pedido pedido = buscar(codigoPedido);
         pedido.confirmar();
     }
 
     @Transactional
-    public void cancelarPedido(Long idPedido) {
-        Pedido pedido = buscar(idPedido);
+    public void cancelarPedido(String codigoPedido) {
+        Pedido pedido = buscar(codigoPedido);
         pedido.cancelar();
     }
 
     @Transactional
-    public void entregarPedido(Long idPedido) {
-        Pedido pedido = buscar(idPedido);
+    public void entregarPedido(String codigoPedido) {
+        Pedido pedido = buscar(codigoPedido);
         pedido.entregar();
     }
 
