@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,10 +46,17 @@ public class RestauranteProdutoController {
     private RestauranteService restauranteService;
 
     @GetMapping
-    public List<ProdutoModel> listar(@PathVariable Long idRestaurante) {
+    public List<ProdutoModel> listar(@PathVariable Long idRestaurante,
+            @RequestParam(required = false) boolean incluirInativos) {
         Restaurante restaurante = restauranteService.buscar(idRestaurante);
 
-        List<Produto> produtos = produtoRepository.findByRestaurante(restaurante);
+        List<Produto> produtos = null;
+
+        if (incluirInativos) {
+            produtos = produtoRepository.findTodosByRestaurante(restaurante);
+        } else {
+            produtos = produtoRepository.findAtivosByRestaurante(restaurante);
+        }
 
         return produtoModelAssembler.toCollectionModel(produtos);
     }
