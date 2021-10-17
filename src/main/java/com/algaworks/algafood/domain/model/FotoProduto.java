@@ -93,4 +93,12 @@ public class FotoProduto {
         return Objects.equals(id, other.id);
     }
 
+    public Long getRestauranteId() {
+        if (getProduto() != null) {
+            return getProduto().getRestaurante().getId();
+        }
+
+        return null;
+    }
+
 }
