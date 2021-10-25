@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public interface FotoStorageService {
 
-    InputStream recuperar(String nomeArquivo);
+    FotoRecuperada recuperar(String nomeArquivo);
 
     void armazenar(NovaFoto novaFoto);
 
@@ -51,6 +51,36 @@ public interface FotoStorageService {
 
         public void setInputStream(InputStream inputStream) {
             this.inputStream = inputStream;
+        }
+    }
+
+    class FotoRecuperada {
+
+        private InputStream inputStream;
+        private String url;
+
+        public InputStream getInputStream() {
+            return inputStream;
+        }
+
+        public void setInputStream(InputStream inputStream) {
+            this.inputStream = inputStream;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public boolean temUrl() {
+            return url != null;
+        }
+
+        public boolean temInputStream() {
+            return inputStream != null;
         }
     }
 
