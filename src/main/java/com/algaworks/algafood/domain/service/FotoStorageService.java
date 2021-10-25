@@ -26,6 +26,7 @@ public interface FotoStorageService {
     class NovaFoto {
 
         private String nomeArquivo;
+        private String contentType;
         private InputStream inputStream;
 
         public String getNomeArquivo() {
@@ -34,6 +35,14 @@ public interface FotoStorageService {
 
         public void setNomeArquivo(String nomeArquivo) {
             this.nomeArquivo = nomeArquivo;
+        }
+
+        public String getContentType() {
+            return contentType;
+        }
+
+        public void setContentType(String contentType) {
+            this.contentType = contentType;
         }
 
         public InputStream getInputStream() {
