@@ -1,6 +1,8 @@
 package com.algaworks.algafood.domain.service;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.transaction.Transactional;
@@ -101,12 +103,16 @@ public class PedidoService {
 
         Mensagem mensagem = new Mensagem();
         mensagem.setAssunto(pedido.getRestaurante().getNome().concat(" - Pedido confirmado"));
-        mensagem.setCorpo(String.format("O pedido de código <strong>%s</strong> foi confirmado!", pedido.getCodigo()));
+        mensagem.setCorpo("pedido-confirmado.html");
 
         Set<String> destinatarios = new HashSet<>();
         destinatarios.add(pedido.getCliente().getEmail());
 
+        Map<String, Object> variaveis = new HashMap<>();
+        variaveis.put("pedido", pedido);
+
         mensagem.setDestinatarios(destinatarios);
+        mensagem.setVariaveis(variaveis);
 
         envioEmailService.enviar(mensagem);
     }

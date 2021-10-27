@@ -1,5 +1,6 @@
 package com.algaworks.algafood.domain.service;
 
+import java.util.Map;
 import java.util.Set;
 
 public interface EnvioEmailService {
@@ -11,6 +12,7 @@ public interface EnvioEmailService {
         private Set<String> destinatarios;
         private String assunto;
         private String corpo;
+        private Map<String, Object> variaveis;
 
         public Set<String> getDestinatarios() {
             return destinatarios;
@@ -34,6 +36,14 @@ public interface EnvioEmailService {
 
         public void setCorpo(String corpo) {
             this.corpo = corpo;
+        }
+
+        public Map<String, Object> getVariaveis() {
+            return variaveis;
+        }
+
+        public void setVariaveis(Map<String, Object> variaveis) {
+            this.variaveis = variaveis;
         }
 
     }
