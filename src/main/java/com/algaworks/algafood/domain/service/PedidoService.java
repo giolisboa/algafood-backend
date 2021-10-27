@@ -1,5 +1,8 @@
 package com.algaworks.algafood.domain.service;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.repository.PedidoRepository;
+import com.algaworks.algafood.domain.service.EnvioEmailService.Mensagem;
 
 @Service
 public class PedidoService {
@@ -35,6 +39,9 @@ public class PedidoService {
 
     @Autowired
     private ProdutoService produtoService;
+
+    @Autowired
+    private EnvioEmailService envioEmailService;
 
     public Pedido buscar(String codigoPedido) {
         return pedidoRepository.findByCodigo(codigoPedido)
@@ -91,6 +98,17 @@ public class PedidoService {
     public void confirmarPedido(String codigoPedido) {
         Pedido pedido = buscar(codigoPedido);
         pedido.confirmar();
+
+        Mensagem mensagem = new Mensagem();
+        mensagem.setAssunto(pedido.getRestaurante().getNome().concat(" - Pedido confirmado"));
+        mensagem.setCorpo(String.format("O pedido de código <strong>%s</strong> foi confirmado!", pedido.getCodigo()));
+
+        Set<String> destinatarios = new HashSet<>();
+        destinatarios.add(pedido.getCliente().getEmail());
+
+        mensagem.setDestinatarios(destinatarios);
+
+        envioEmailService.enviar(mensagem);
     }
 
     @Transactional
