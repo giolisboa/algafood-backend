@@ -16,6 +16,8 @@ public class EmailProperties {
 
     private Implementacao impl = Implementacao.FAKE;
 
+    private Sandbox sandbox = new Sandbox();
+
     public String getRemetente() {
         return remetente;
     }
@@ -32,8 +34,30 @@ public class EmailProperties {
         this.impl = impl;
     }
 
+    public Sandbox getSandbox() {
+        return sandbox;
+    }
+
+    public void setSandbox(Sandbox sandbox) {
+        this.sandbox = sandbox;
+    }
+
+    public class Sandbox {
+
+        private String destinatario;
+
+        public String getDestinatario() {
+            return destinatario;
+        }
+
+        public void setDestinatario(String destinatario) {
+            this.destinatario = destinatario;
+        }
+
+    }
+
     public enum Implementacao {
-        SMTP, FAKE
+        SMTP, FAKE, SANDBOX
     }
 
 }
