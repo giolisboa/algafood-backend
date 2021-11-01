@@ -14,12 +14,26 @@ public class EmailProperties {
     @NotNull
     private String remetente;
 
+    private Implementacao impl = Implementacao.FAKE;
+
     public String getRemetente() {
         return remetente;
     }
 
     public void setRemetente(String remetente) {
         this.remetente = remetente;
+    }
+
+    public Implementacao getImpl() {
+        return impl;
+    }
+
+    public void setImpl(Implementacao impl) {
+        this.impl = impl;
+    }
+
+    public enum Implementacao {
+        SMTP, FAKE
     }
 
 }
