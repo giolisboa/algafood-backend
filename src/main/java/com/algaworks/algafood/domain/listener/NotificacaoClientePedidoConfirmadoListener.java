@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import com.algaworks.algafood.domain.event.PedidoConfirmadoEvent;
 import com.algaworks.algafood.domain.model.Pedido;
@@ -20,7 +20,7 @@ public class NotificacaoClientePedidoConfirmadoListener {
     @Autowired
     EnvioEmailService envioEmailService;
 
-    @EventListener
+    @TransactionalEventListener
     public void aoConfirmarPedido(PedidoConfirmadoEvent event) {
         Pedido pedido = event.getPedido();
 
