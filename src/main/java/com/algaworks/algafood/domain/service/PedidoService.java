@@ -1,10 +1,5 @@
 package com.algaworks.algafood.domain.service;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +14,6 @@ import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.repository.PedidoRepository;
-import com.algaworks.algafood.domain.service.EnvioEmailService.Mensagem;
 
 @Service
 public class PedidoService {
@@ -41,9 +35,6 @@ public class PedidoService {
 
     @Autowired
     private ProdutoService produtoService;
-
-    @Autowired
-    private EnvioEmailService envioEmailService;
 
     public Pedido buscar(String codigoPedido) {
         return pedidoRepository.findByCodigo(codigoPedido)
@@ -101,20 +92,7 @@ public class PedidoService {
         Pedido pedido = buscar(codigoPedido);
         pedido.confirmar();
 
-        Mensagem mensagem = new Mensagem();
-        mensagem.setAssunto(pedido.getRestaurante().getNome().concat(" - Pedido confirmado"));
-        mensagem.setCorpo("pedido-confirmado.html");
-
-        Set<String> destinatarios = new HashSet<>();
-        destinatarios.add(pedido.getCliente().getEmail());
-
-        Map<String, Object> variaveis = new HashMap<>();
-        variaveis.put("pedido", pedido);
-
-        mensagem.setDestinatarios(destinatarios);
-        mensagem.setVariaveis(variaveis);
-
-        envioEmailService.enviar(mensagem);
+        pedidoRepository.save(pedido);
     }
 
     @Transactional
