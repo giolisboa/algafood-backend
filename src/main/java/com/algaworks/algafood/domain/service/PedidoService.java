@@ -99,6 +99,8 @@ public class PedidoService {
     public void cancelarPedido(String codigoPedido) {
         Pedido pedido = buscar(codigoPedido);
         pedido.cancelar();
+
+        pedidoRepository.save(pedido);
     }
 
     @Transactional
