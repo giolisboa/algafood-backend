@@ -1,10 +1,14 @@
-package com.algaworks.algafood.api.model.output;
+package com.algaworks.algafood.api.openapi.model;
 
 import java.math.BigDecimal;
 
+import com.algaworks.algafood.api.model.output.CozinhaModel;
+
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-public class RestauranteModel {
+@ApiModel("RestauranteBasicoModel")
+public class RestauranteBasicoModelOpenApi {
 
     @ApiModelProperty(example = "1")
     private Long id;
@@ -16,12 +20,6 @@ public class RestauranteModel {
     private BigDecimal taxaFrete;
 
     private CozinhaModel cozinha;
-
-    private Boolean ativo;
-
-    private Boolean aberto;
-
-    private EnderecoModel endereco;
 
     public Long getId() {
         return id;
@@ -53,30 +51,6 @@ public class RestauranteModel {
 
     public void setCozinha(CozinhaModel cozinha) {
         this.cozinha = cozinha;
-    }
-
-    public Boolean getAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
-    }
-
-    public Boolean getAberto() {
-        return aberto;
-    }
-
-    public void setAberto(Boolean aberto) {
-        this.aberto = aberto;
-    }
-
-    public EnderecoModel getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(EnderecoModel endereco) {
-        this.endereco = endereco;
     }
 
 }
