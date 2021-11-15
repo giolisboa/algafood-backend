@@ -1,9 +1,16 @@
 package com.algaworks.algafood.api.model.output;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class CidadeResumoModel {
 
+    @ApiModelProperty(example = "1")
     private Long id;
+
+    @ApiModelProperty(example = "Uberlândia")
     private String nome;
+
+    @ApiModelProperty(example = "Minas Gerais")
     private String estado;
 
     public Long getId() {

@@ -1,9 +1,16 @@
 package com.algaworks.algafood.api.model.output;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class UsuarioModel {
 
+    @ApiModelProperty(example = "1")
     private Long id;
+
+    @ApiModelProperty(example = "João da Silva")
     private String nome;
+
+    @ApiModelProperty(example = "joao.ger@algafood.com.br")
     private String email;
 
     public Long getId() {
