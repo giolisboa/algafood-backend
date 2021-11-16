@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.algaworks.algafood.api.assembler.FotoProdutoModelAssembler;
 import com.algaworks.algafood.api.model.input.FotoProdutoInput;
 import com.algaworks.algafood.api.model.output.FotoProdutoModel;
+import com.algaworks.algafood.api.openapi.controller.RestauranteProdutoFotoControllerOpenApi;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.FotoProduto;
 import com.algaworks.algafood.domain.model.Produto;
@@ -34,8 +35,8 @@ import com.algaworks.algafood.domain.service.FotoStorageService.FotoRecuperada;
 import com.algaworks.algafood.domain.service.ProdutoService;
 
 @RestController
-@RequestMapping(value = "/restaurantes/{idRestaurante}/produtos/{idProduto}/foto")
-public class RestauranteProdutoFotoController {
+@RequestMapping(path = "/restaurantes/{idRestaurante}/produtos/{idProduto}/foto", produces = MediaType.APPLICATION_JSON_VALUE)
+public class RestauranteProdutoFotoController implements RestauranteProdutoFotoControllerOpenApi {
 
     @Autowired
     private FotoProdutoService fotoProdutoService;
@@ -50,7 +51,7 @@ public class RestauranteProdutoFotoController {
     private FotoStorageService fotoStorageService;
 
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public FotoProdutoModel atualizarFoto(@PathVariable Long idRestaurante, @PathVariable Long idProduto,
+    public FotoProdutoModel atualizar(@PathVariable Long idRestaurante, @PathVariable Long idProduto,
             @Valid FotoProdutoInput fotoProdutoInput) throws IOException {
 
         Produto produto = produtoService.buscar(idRestaurante, idProduto);
@@ -75,15 +76,15 @@ public class RestauranteProdutoFotoController {
         fotoProdutoService.excluir(idRestaurante, idProduto);
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping
     public FotoProdutoModel buscar(@PathVariable Long idRestaurante, @PathVariable Long idProduto) {
         FotoProduto fotoProduto = fotoProdutoService.buscar(idRestaurante, idProduto);
 
         return fotoProdutoModelAssembler.toModel(fotoProduto);
     }
 
-    @GetMapping
-    public ResponseEntity<?> servirFoto(@PathVariable Long idRestaurante, @PathVariable Long idProduto,
+    @GetMapping(produces = MediaType.ALL_VALUE)
+    public ResponseEntity<?> servir(@PathVariable Long idRestaurante, @PathVariable Long idProduto,
             @RequestHeader(name = "accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException {
         try {
             FotoProduto fotoProduto = fotoProdutoService.buscar(idRestaurante, idProduto);
@@ -96,7 +97,8 @@ public class RestauranteProdutoFotoController {
             FotoRecuperada fotoRecuperada = fotoStorageService.recuperar(fotoProduto.getNomeArquivo());
 
             if (fotoRecuperada.temUrl()) {
-                return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, fotoRecuperada.getUrl())
+                return ResponseEntity.status(HttpStatus.FOUND)
+                        .header(HttpHeaders.LOCATION, fotoRecuperada.getUrl())
                         .build();
             } else {
                 return ResponseEntity.ok().contentType(mediaTypeFoto)
