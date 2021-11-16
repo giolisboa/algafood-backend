@@ -1,9 +1,16 @@
 package com.algaworks.algafood.api.model.output;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class PermissaoModel {
 
+    @ApiModelProperty(example = "1")
     private Long id;
+
+    @ApiModelProperty(example = "CONSULTAR_COZINHAS")
     private String nome;
+
+    @ApiModelProperty(example = "Permite consultar cozinhas")
     private String descricao;
 
     public Long getId() {
