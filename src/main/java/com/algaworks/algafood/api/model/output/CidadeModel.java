@@ -1,6 +1,8 @@
 package com.algaworks.algafood.api.model.output;
 
-public class CidadeModel {
+import org.springframework.hateoas.RepresentationModel;
+
+public class CidadeModel extends RepresentationModel<CidadeModel> {
 
     private Long id;
     private String nome;

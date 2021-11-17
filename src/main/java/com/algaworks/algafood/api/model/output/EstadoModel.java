@@ -1,6 +1,8 @@
 package com.algaworks.algafood.api.model.output;
 
-public class EstadoModel {
+import org.springframework.hateoas.RepresentationModel;
+
+public class EstadoModel extends RepresentationModel<EstadoModel> {
 
     private Long id;
     private String nome;
