@@ -76,13 +76,30 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
     }
 
     @GetMapping("/{idFormaPagamento}")
-    public ResponseEntity<FormaPagamentoModel> buscar(@PathVariable Long idFormaPagamento) {
+    public ResponseEntity<FormaPagamentoModel> buscar(@PathVariable Long idFormaPagamento,
+            ServletWebRequest request) {
+
+        ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
+
+        String eTag = "0";
+
+        OffsetDateTime dataAtualizacao = formaPagamentoRepository.getDataAtualizacaoById(idFormaPagamento);
+
+        if (dataAtualizacao != null) {
+            eTag = String.valueOf(dataAtualizacao.toEpochSecond());
+        }
+
+        if (request.checkNotModified(eTag)) {
+            return null;
+        }
+
         FormaPagamento formaPagamento = formaPagamentoService.buscar(idFormaPagamento);
 
         FormaPagamentoModel formaPagamentoModel = formaPagamentoModelAssembler.toModel(formaPagamento);
 
         return ResponseEntity.ok()
                 .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+                .eTag(eTag)
                 .body(formaPagamentoModel);
     }
 

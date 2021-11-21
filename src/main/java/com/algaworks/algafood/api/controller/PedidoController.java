@@ -1,15 +1,15 @@
 package com.algaworks.algafood.api.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,18 +58,17 @@ public class PedidoController implements PedidoControllerOpenApi {
     @Autowired
     private PedidoInputDisassembler pedidoInputDisassembler;
 
+    @Autowired
+    private PagedResourcesAssembler<Pedido> pagedResourcesAssembler;
+
+    @Override
     @GetMapping
-    public Page<PedidoResumoModel> listar(PedidoFilter filtro, @PageableDefault(size = 10) Pageable pageable) {
+    public PagedModel<PedidoResumoModel> listar(PedidoFilter filtro, @PageableDefault(size = 10) Pageable pageable) {
         pageable = traduzirPageable(pageable);
 
-        Page<Pedido> pedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageable);
+        Page<Pedido> pedidosPage = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageable);
 
-        List<PedidoResumoModel> pedidosResumoModel = pedidoResumoModelAssembler.toCollectionModel(pedidos.getContent());
-
-        Page<PedidoResumoModel> pedidosResumoModelPage = new PageImpl<>(pedidosResumoModel, pageable,
-                pedidos.getTotalElements());
-
-        return pedidosResumoModelPage;
+        return pagedResourcesAssembler.toModel(pedidosPage, pedidoResumoModelAssembler);
     }
 
     @GetMapping("/{codigoPedido}")
@@ -118,8 +117,7 @@ public class PedidoController implements PedidoControllerOpenApi {
                 "codigo", "codigo",
                 "restaurante.nome", "restaurante.nome",
                 "cliente.nome", "cliente.nome",
-                "valorTotal", "valorTotal"
-            );
+                "valorTotal", "valorTotal");
 
         return PageableTranslator.translate(apiPageable, mapeamento);
     }
