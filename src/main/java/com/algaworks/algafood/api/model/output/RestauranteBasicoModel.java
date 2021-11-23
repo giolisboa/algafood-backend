@@ -8,7 +8,7 @@ import org.springframework.hateoas.server.core.Relation;
 import io.swagger.annotations.ApiModelProperty;
 
 @Relation(collectionRelation = "restaurantes")
-public class RestauranteModel extends RepresentationModel<RestauranteModel> {
+public class RestauranteBasicoModel extends RepresentationModel<RestauranteBasicoModel> {
 
     @ApiModelProperty(example = "1")
     private Long id;
@@ -20,12 +20,6 @@ public class RestauranteModel extends RepresentationModel<RestauranteModel> {
     private BigDecimal taxaFrete;
 
     private CozinhaModel cozinha;
-
-    private Boolean ativo;
-
-    private Boolean aberto;
-
-    private EnderecoModel endereco;
 
     public Long getId() {
         return id;
@@ -57,30 +51,6 @@ public class RestauranteModel extends RepresentationModel<RestauranteModel> {
 
     public void setCozinha(CozinhaModel cozinha) {
         this.cozinha = cozinha;
-    }
-
-    public Boolean getAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
-    }
-
-    public Boolean getAberto() {
-        return aberto;
-    }
-
-    public void setAberto(Boolean aberto) {
-        this.aberto = aberto;
-    }
-
-    public EnderecoModel getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(EnderecoModel endereco) {
-        this.endereco = endereco;
     }
 
 }
