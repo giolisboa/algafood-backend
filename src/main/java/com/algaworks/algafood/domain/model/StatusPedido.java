@@ -5,9 +5,9 @@ import java.util.List;
 
 public enum StatusPedido {
 
-    CRIADO("Criado"), 
-    CONFIRMADO("Confirmado", CRIADO), 
-    ENTREGUE("Entregue", CONFIRMADO), 
+    CRIADO("Criado"),
+    CONFIRMADO("Confirmado", CRIADO),
+    ENTREGUE("Entregue", CONFIRMADO),
     CANCELADO("Cancelado", CRIADO);
 
     private String descricao;
@@ -24,6 +24,10 @@ public enum StatusPedido {
 
     public boolean naoPodeAlterarPara(StatusPedido novoStatus) {
         return !novoStatus.statusAnteriores.contains(this);
+    }
+
+    public boolean podeAlterarPara(StatusPedido novoStatus) {
+        return !naoPodeAlterarPara(novoStatus);
     }
 
 }
