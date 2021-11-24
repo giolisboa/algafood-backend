@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,21 +33,34 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Override
     @GetMapping
     public CollectionModel<FormaPagamentoModel> listar(@PathVariable Long idRestaurante) {
         Restaurante restaurante = restauranteService.buscar(idRestaurante);
 
-        return formaPagamentoModelAssembler.toCollectionModel(restaurante.getFormasPagamento())
+        CollectionModel<FormaPagamentoModel> formasPagamentoModel = formaPagamentoModelAssembler
+                .toCollectionModel(restaurante.getFormasPagamento())
                 .removeLinks()
                 .add(algaLinks.linkToRestauranteFormasPagamento(idRestaurante));
+
+        formasPagamentoModel.getContent().forEach(formaPagamentoModel -> {
+            formaPagamentoModel.add(algaLinks.linkToRestauranteFormaPagamentoDesassociacao(
+                    idRestaurante, formaPagamentoModel.getId(), "desassociar"));
+        });
+
+        return formasPagamentoModel;
     }
 
+    @Override
     @DeleteMapping("/{idFormaPagamento}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void desassociar(@PathVariable Long idRestaurante, @PathVariable Long idFormaPagamento) {
+    public ResponseEntity<Void> desassociar(@PathVariable Long idRestaurante, @PathVariable Long idFormaPagamento) {
         restauranteService.desassociarFormaPagamento(idRestaurante, idFormaPagamento);
+
+        return ResponseEntity.noContent().build();
     }
 
+    @Override
     @PutMapping("/{idFormaPagamento}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void associar(@PathVariable Long idRestaurante, @PathVariable Long idFormaPagamento) {
