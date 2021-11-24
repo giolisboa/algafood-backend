@@ -75,6 +75,7 @@ public class PedidoController implements PedidoControllerOpenApi {
         return pagedResourcesAssembler.toModel(pedidosPage, pedidoResumoModelAssembler);
     }
 
+    @Override
     @GetMapping("/{codigoPedido}")
     public PedidoModel buscar(@PathVariable String codigoPedido) {
         Pedido pedido = pedidoService.buscar(codigoPedido);
@@ -82,6 +83,7 @@ public class PedidoController implements PedidoControllerOpenApi {
         return pedidoModelAssembler.toModel(pedido);
     }
 
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PedidoModel adicionar(@RequestBody @Valid PedidoInput pedidoInput) {
@@ -98,6 +100,7 @@ public class PedidoController implements PedidoControllerOpenApi {
         }
     }
 
+    @Override
     @PutMapping("/{codigoPedido}/confirmacao")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> confirmar(@PathVariable String codigoPedido) {
@@ -106,6 +109,7 @@ public class PedidoController implements PedidoControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
+    @Override
     @PutMapping("/{codigoPedido}/cancelamento")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> cancelar(@PathVariable String codigoPedido) {
@@ -115,6 +119,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 
     }
 
+    @Override
     @PutMapping("/{codigoPedido}/entrega")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> entregar(@PathVariable String codigoPedido) {

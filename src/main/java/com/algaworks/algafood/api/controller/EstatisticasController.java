@@ -33,6 +33,7 @@ public class EstatisticasController implements EstatisticasControllerOpenApi {
         return vendaQueryService.consultarVendasDiarias(filtro, timeOffset);
     }
 
+    @Override
     @GetMapping(path = "/vendas-diarias", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<byte[]> consultarVendasDiariasPdf(VendaDiariaFilter filtro,
             @RequestParam(required = false, defaultValue = "+00:00") String timeOffset) {

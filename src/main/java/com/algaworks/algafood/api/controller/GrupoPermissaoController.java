@@ -36,12 +36,14 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
         return permissaoModelAssembler.toCollectionModel(grupo.getPermissoes());
     }
 
+    @Override
     @DeleteMapping("/{idPermissao}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void desassociar(@PathVariable Long idGrupo, @PathVariable Long idPermissao) {
         grupoService.desassociarPermissao(idGrupo, idPermissao);
     }
 
+    @Override
     @PutMapping("/{idPermissao}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void associar(@PathVariable Long idGrupo, @PathVariable Long idPermissao) {

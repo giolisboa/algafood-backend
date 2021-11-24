@@ -77,6 +77,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
                 .body(formasPagamentosModel);
     }
 
+    @Override
     @GetMapping("/{idFormaPagamento}")
     public ResponseEntity<FormaPagamentoModel> buscar(@PathVariable Long idFormaPagamento,
             ServletWebRequest request) {
@@ -105,6 +106,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
                 .body(formaPagamentoModel);
     }
 
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public FormaPagamentoModel adicionar(@RequestBody @Valid FormaPagamentoInput formaPagamentoInput) {
@@ -113,6 +115,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
         return formaPagamentoModelAssembler.toModel(formaPagamentoService.salvar(formaPagamento));
     }
 
+    @Override
     @PutMapping("/{idFormaPagamento}")
     public FormaPagamentoModel atualizar(@PathVariable Long idFormaPagamento,
             @RequestBody @Valid FormaPagamentoInput formaPagamentoInput) {
@@ -123,6 +126,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
         return formaPagamentoModelAssembler.toModel(formaPagamentoService.salvar(formaPagamentoAtual));
     }
 
+    @Override
     @DeleteMapping("/{idFormaPagamento}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long idFormaPagamento) {

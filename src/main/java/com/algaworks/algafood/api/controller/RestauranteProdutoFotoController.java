@@ -50,6 +50,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
     @Autowired
     private FotoStorageService fotoStorageService;
 
+    @Override
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public FotoProdutoModel atualizar(@PathVariable Long idRestaurante, @PathVariable Long idProduto,
             @Valid FotoProdutoInput fotoProdutoInput) throws IOException {
@@ -70,12 +71,14 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
         return fotoProdutoModelAssembler.toModel(fotoSalva);
     }
 
+    @Override
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluir(@PathVariable Long idRestaurante, @PathVariable Long idProduto) {
         fotoProdutoService.excluir(idRestaurante, idProduto);
     }
 
+    @Override
     @GetMapping
     public FotoProdutoModel buscar(@PathVariable Long idRestaurante, @PathVariable Long idProduto) {
         FotoProduto fotoProduto = fotoProdutoService.buscar(idRestaurante, idProduto);
@@ -83,6 +86,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
         return fotoProdutoModelAssembler.toModel(fotoProduto);
     }
 
+    @Override
     @GetMapping(produces = MediaType.ALL_VALUE)
     public ResponseEntity<?> servir(@PathVariable Long idRestaurante, @PathVariable Long idProduto,
             @RequestHeader(name = "accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException {

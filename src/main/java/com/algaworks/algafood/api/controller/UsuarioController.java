@@ -44,6 +44,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
     @Autowired
     private UsuarioInputDisassembler usuarioInputDisassembler;
 
+    @Override
     @GetMapping
     public CollectionModel<UsuarioModel> listar() {
         List<Usuario> todasUsuarios = usuarioRepository.findAll();
@@ -51,6 +52,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
         return usuarioModelAssembler.toCollectionModel(todasUsuarios);
     }
 
+    @Override
     @GetMapping("/{idUsuario}")
     public UsuarioModel buscar(@PathVariable Long idUsuario) {
         Usuario usuario = usuarioService.buscar(idUsuario);
@@ -58,6 +60,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
         return usuarioModelAssembler.toModel(usuario);
     }
 
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UsuarioModel adicionar(@RequestBody @Valid UsuarioComSenhaInput usuarioInput) {
@@ -67,6 +70,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
         return usuarioModelAssembler.toModel(usuario);
     }
 
+    @Override
     @PutMapping("/{idUsuario}")
     public UsuarioModel atualizar(@PathVariable Long idUsuario, @RequestBody @Valid UsuarioInput usuarioInput) {
         Usuario usuarioAtual = usuarioService.buscar(idUsuario);
@@ -76,6 +80,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
         return usuarioModelAssembler.toModel(usuarioAtual);
     }
 
+    @Override
     @PutMapping("/{idUsuario}/senha")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void alterarSenha(@PathVariable Long idUsuario, @RequestBody @Valid SenhaInput senha) {

@@ -58,12 +58,14 @@ public class RestauranteController implements RestauranteControllerOpenApi {
         return restauranteBasicoModelAssembler.toCollectionModel(restauranteRepository.findAll());
     }
 
+    @Override
     @GetMapping("/{idRestaurante}")
     public RestauranteModel buscar(@PathVariable Long idRestaurante) {
         Restaurante restaurante = restauranteService.buscar(idRestaurante);
         return restauranteModelAssembler.toModel(restaurante);
     }
 
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public RestauranteModel adicionar(@RequestBody @Valid RestauranteInput restauranteInput) {
@@ -76,6 +78,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
         }
     }
 
+    @Override
     @PutMapping("/{idRestaurante}")
     public RestauranteModel atualizar(@PathVariable Long idRestaurante,
             @RequestBody @Valid RestauranteInput restauranteInput) {
@@ -96,6 +99,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
         restauranteService.excluir(idRestaurante);
     }
 
+    @Override
     @PutMapping("/{idRestaurante}/ativo")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> ativar(@PathVariable Long idRestaurante) {
@@ -104,6 +108,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
+    @Override
     @DeleteMapping("/{idRestaurante}/ativo")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> inativar(@PathVariable Long idRestaurante) {
@@ -112,6 +117,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
+    @Override
     @PutMapping("/ativacoes")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void ativarMultiplos(@RequestBody List<Long> idsRestaurante) {
@@ -122,6 +128,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
         }
     }
 
+    @Override
     @DeleteMapping("/ativacoes")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void inativarMultiplos(@RequestBody List<Long> idsRestaurante) {
@@ -132,6 +139,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
         }
     }
 
+    @Override
     @PutMapping("/{idRestaurante}/fechamento")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> fechar(@PathVariable Long idRestaurante) {
@@ -140,6 +148,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
+    @Override
     @PutMapping("/{idRestaurante}/abertura")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> abrir(@PathVariable Long idRestaurante) {
