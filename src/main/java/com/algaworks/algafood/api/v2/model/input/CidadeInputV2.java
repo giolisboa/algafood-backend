@@ -3,8 +3,10 @@ package com.algaworks.algafood.api.v2.model.input;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+@ApiModel("CidadeInput")
 public class CidadeInputV2 {
 
     @ApiModelProperty(example = "Uberlândia", required = true)

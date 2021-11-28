@@ -3,8 +3,10 @@ package com.algaworks.algafood.api.v2.model.output;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+@ApiModel("CidadeModel")
 @Relation(collectionRelation = "cidades")
 public class CidadeModelV2 extends RepresentationModel<CidadeModelV2> {
 
