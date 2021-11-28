@@ -135,10 +135,10 @@ public class SpringFoxConfig implements WebMvcConfigurer {
         var typeResolver = new TypeResolver();
 
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("V1")
+                .groupName("V2")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.algaworks.algafood.api"))
-                .paths(PathSelectors.ant("/v1/**"))
+                .paths(PathSelectors.ant("/v2/**"))
                 .build()
                 .useDefaultResponseMessages(false)
                 .globalResponseMessage(RequestMethod.GET, globalGetResponseMessages())
