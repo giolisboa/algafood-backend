@@ -15,7 +15,7 @@ public interface RestauranteRepository extends CustomJpaRepository<Restaurante, 
 
     @Query("select distinct r from Restaurante r join fetch r.cozinha")
     List<Restaurante> findAll();
-    
+
     List<Restaurante> queryByTaxaFreteBetween(BigDecimal taxaInicial, BigDecimal taxaFinal);
 
     @Query("from Restaurante where nome like %:nome% and cozinha.id = :id")
@@ -31,5 +31,8 @@ public interface RestauranteRepository extends CustomJpaRepository<Restaurante, 
 
     @Query("from Restaurante where nome like %:texto% and cozinha.nome = :nome")
     List<Restaurante> consultarPorNomeCozinha(String texto, String nome);
+
+    @Query("select case when count(1) > 0 then true else false end from Restaurante rest join rest.responsaveis resp where rest.id = :restauranteId and resp.id = :usuarioId")
+    boolean existsResponsavel(Long restauranteId, Long usuarioId);
 
 }
