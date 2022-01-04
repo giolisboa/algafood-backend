@@ -17,6 +17,7 @@ import com.algaworks.algafood.api.v1.AlgaLinks;
 import com.algaworks.algafood.api.v1.assembler.PermissaoModelAssembler;
 import com.algaworks.algafood.api.v1.model.output.PermissaoModel;
 import com.algaworks.algafood.api.v1.openapi.controller.GrupoPermissaoControllerOpenApi;
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.model.Grupo;
 import com.algaworks.algafood.domain.service.GrupoService;
@@ -34,6 +35,9 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     @Override
     @GetMapping
@@ -42,14 +46,18 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
 
         CollectionModel<PermissaoModel> permissoesModel = permissaoModelAssembler
                 .toCollectionModel(grupo.getPermissoes())
-                .removeLinks()
-                .add(algaLinks.linkToGrupoPermissoes(idGrupo))
-                .add(algaLinks.linkToGrupoPermissaoAssociacao(idGrupo, "associar"));
+                .removeLinks();
 
-        permissoesModel.getContent().forEach(permissaoModel -> {
-            permissaoModel.add(algaLinks.linkToGrupoPermissaoDesassociacao(
-                    idGrupo, permissaoModel.getId(), "desassociar"));
-        });
+        permissoesModel.add(algaLinks.linkToGrupoPermissoes(idGrupo));
+
+        if (algaSecurity.podeEditarUsuariosGruposPermissoes()) {
+            permissoesModel.add(algaLinks.linkToGrupoPermissaoAssociacao(idGrupo, "associar"));
+
+            permissoesModel.getContent().forEach(permissaoModel -> {
+                permissaoModel.add(
+                        algaLinks.linkToGrupoPermissaoDesassociacao(idGrupo, permissaoModel.getId(), "desassociar"));
+            });
+        }
 
         return permissoesModel;
     }

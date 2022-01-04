@@ -17,6 +17,7 @@ import com.algaworks.algafood.api.v1.AlgaLinks;
 import com.algaworks.algafood.api.v1.assembler.UsuarioModelAssembler;
 import com.algaworks.algafood.api.v1.model.output.UsuarioModel;
 import com.algaworks.algafood.api.v1.openapi.controller.RestauranteUsuarioResponsavelControllerOpenApi;
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.service.RestauranteService;
@@ -34,6 +35,9 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     @CheckSecurity.Restaurantes.PodeConsultar
     @Override
     @GetMapping
@@ -42,14 +46,18 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
 
         CollectionModel<UsuarioModel> usuariosModel = usuarioModelAssembler
                 .toCollectionModel(restaurante.getResponsaveis())
-                .removeLinks()
-                .add(algaLinks.linkToRestauranteResponsaveis(idRestaurante))
-                .add(algaLinks.linkToRestauranteResponsavelAssociacao(idRestaurante, "associar"));
+                .removeLinks();
 
-        usuariosModel.getContent().stream().forEach(usuarioModel -> {
-            usuarioModel.add(algaLinks.linkToRestauranteResponsavelDesassociacao(
-                    idRestaurante, usuarioModel.getId(), "desassociar"));
-        });
+        usuariosModel.add(algaLinks.linkToRestauranteResponsaveis(idRestaurante));
+
+        if (algaSecurity.podeGerenciarCadastroRestaurantes()) {
+            usuariosModel.add(algaLinks.linkToRestauranteResponsavelAssociacao(idRestaurante, "associar"));
+
+            usuariosModel.getContent().stream().forEach(usuarioModel -> {
+                usuarioModel.add(algaLinks.linkToRestauranteResponsavelDesassociacao(idRestaurante,
+                        usuarioModel.getId(), "desassociar"));
+            });
+        }
 
         return usuariosModel;
     }
