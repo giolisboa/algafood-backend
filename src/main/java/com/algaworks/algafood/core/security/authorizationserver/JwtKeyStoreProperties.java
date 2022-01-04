@@ -42,7 +42,7 @@ public class JwtKeyStoreProperties {
         return jksLocation;
     }
 
-    public void setPath(Resource jksLocation) {
+    public void setJksLocation(Resource jksLocation) {
         this.jksLocation = jksLocation;
     }
 
