@@ -90,6 +90,7 @@ public class PedidoController implements PedidoControllerOpenApi {
         return pedidoModelAssembler.toModel(pedido);
     }
 
+    @CheckSecurity.Pedidos.PodeCriar
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -106,6 +107,7 @@ public class PedidoController implements PedidoControllerOpenApi {
         }
     }
 
+    @CheckSecurity.Pedidos.PodeGerenciarPedidos
     @Override
     @PutMapping("/{codigoPedido}/confirmacao")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -115,6 +117,7 @@ public class PedidoController implements PedidoControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.Pedidos.PodeGerenciarPedidos
     @Override
     @PutMapping("/{codigoPedido}/cancelamento")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -125,6 +128,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 
     }
 
+    @CheckSecurity.Pedidos.PodeGerenciarPedidos
     @Override
     @PutMapping("/{codigoPedido}/entrega")
     @ResponseStatus(HttpStatus.NO_CONTENT)

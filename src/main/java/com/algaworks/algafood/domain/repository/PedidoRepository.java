@@ -17,4 +17,7 @@ public interface PedidoRepository extends CustomJpaRepository<Pedido, Long>, Jpa
 
     Optional<Pedido> findByCodigo(String codigo);
 
+    @Query("select case when count(1) > 0 then true else false end from Pedido ped join ped.restaurante rest join rest.responsaveis resp where ped.codigo = :codigoPedido and resp.id = :usuarioId")
+    boolean isPedidoGerenciadoPor(String codigoPedido, Long usuarioId);
+
 }
