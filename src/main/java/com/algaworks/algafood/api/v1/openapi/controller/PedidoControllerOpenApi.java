@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiResponses;
 public interface PedidoControllerOpenApi {
 
     @ApiOperation("Pesquisa os pedidos")
-    PagedModel<PedidoResumoModel> listar(PedidoFilter filtro, Pageable pageable);
+    PagedModel<PedidoResumoModel> pesquisar(PedidoFilter filtro, Pageable pageable);
 
     @ApiOperation("Registra um pedido")
     @ApiResponses({
