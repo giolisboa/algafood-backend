@@ -26,7 +26,7 @@ public class NotificacaoClientePedidoConfirmadoListener {
 
         Mensagem mensagem = new Mensagem();
         mensagem.setAssunto(pedido.getRestaurante().getNome().concat(" - Pedido confirmado"));
-        mensagem.setCorpo("pedido-confirmado.html");
+        mensagem.setCorpo("emails/pedido-confirmado.html");
 
         Set<String> destinatarios = new HashSet<>();
         destinatarios.add(pedido.getCliente().getEmail());

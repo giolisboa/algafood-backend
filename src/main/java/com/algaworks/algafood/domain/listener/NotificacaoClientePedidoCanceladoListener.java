@@ -26,7 +26,7 @@ public class NotificacaoClientePedidoCanceladoListener {
 
         Mensagem mensagem = new Mensagem();
         mensagem.setAssunto(pedido.getRestaurante().getNome().concat(" - Pedido cancelado"));
-        mensagem.setCorpo("pedido-cancelado.html");
+        mensagem.setCorpo("emails/pedido-cancelado.html");
 
         Set<String> destinatarios = new HashSet<>();
         destinatarios.add(pedido.getCliente().getEmail());
