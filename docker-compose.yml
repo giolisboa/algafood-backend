@@ -24,7 +24,7 @@ services:
     command: ["/wait-for-it.sh", "algafood-mysql:3316", "-t", "30", "--", "java", "-jar", "api.jar"]
     environment:
       DB_HOST: algafood-mysql
-      DB_PASSWORD: algafood-mysql
+      DB_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       AWS_KEY_ACCESS: ${AWS_KEY_ACCESS}
       AWS_KEY_SECRET: ${AWS_KEY_SECRET}
       MAIL_PASSWORD: ${MAIL_PASSWORD}
