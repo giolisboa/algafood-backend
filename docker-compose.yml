@@ -28,6 +28,8 @@ services:
       AWS_KEY_ACCESS: ${AWS_KEY_ACCESS}
       AWS_KEY_SECRET: ${AWS_KEY_SECRET}
       MAIL_PASSWORD: ${MAIL_PASSWORD}
+      SPRING_SESSION_STORE_TYPE: redis
+      SPRING_REDIS_HOST: algafood-redis
     networks:
       - algafood-network
     depends_on:
